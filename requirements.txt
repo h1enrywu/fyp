@@ -2,7 +2,6 @@ streamlit
 pandas
 plotly.express
 streamlit_folium
-plotly.graph_objects
 base64
 folium
 BeautifulSoup
