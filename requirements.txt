@@ -9,6 +9,3 @@ statistics
 transformers
 textblob
 selenium
-random
-time
-datetime
