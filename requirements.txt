@@ -5,8 +5,6 @@ streamlit_folium
 folium
 beautifulsoup4
 requests
-en_core_web_sm
-requests
 urllib.parse
 nltk.tokenize
 nltk.stem
