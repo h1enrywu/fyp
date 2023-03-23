@@ -1,7 +1,6 @@
 streamlit
 pandas
 plotly.express
-streamlit.components.v1
 PIL
 streamlit_folium
 plotly.graph_objects
