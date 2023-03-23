@@ -1,7 +1,6 @@
 streamlit
 pandas
 plotly.express
-PIL
 streamlit_folium
 plotly.graph_objects
 base64
