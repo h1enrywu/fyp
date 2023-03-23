@@ -2,7 +2,6 @@ streamlit
 pandas
 plotly.express
 streamlit_folium
-base64
 folium
 BeautifulSoup
 requests
