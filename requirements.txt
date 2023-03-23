@@ -9,7 +9,6 @@ statistics
 transformers
 textblob
 selenium
-selenium.webdriver.common.keys
 random
 time
 datetime
