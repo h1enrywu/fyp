@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 from bs4 import BeautifulSoup as bs
-from datetime import datetime
+import datetime
 
 
 def scrape(url):
