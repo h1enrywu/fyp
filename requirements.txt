@@ -3,7 +3,7 @@ pandas
 plotly.express
 streamlit_folium
 folium
-BeautifulSoup
+beautifulsoup4
 requests
 nltk.stem.porter
 re
