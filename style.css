@@ -1,0 +1,70 @@
+h2,
+h3 {
+    font-weight: 600;
+    text-align: center;
+}
+
+
+div[data-testid="stMarkdownContainer"] p {
+    font-size: 16px;
+}
+
+/* topbar */
+header[data-testid="stHeader"] {
+    background-color: transparent;
+}
+
+/* introduction page h2 */
+.intro_header h2 {
+    color: rgba(255, 255, 255, 0.87);
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.css-b3ofzu:visited {
+    background-color: rgb(68 10 10 / 66%);
+}
+
+/* the font of sidebar */
+.css-1dbyzg0 {
+    color: #161617;
+    opacity: 0.9;
+}
+
+/* plotly container */
+.plot-container.plotly {
+    border: 1.5px solid #e6e6e6;
+}
+
+/* my_container */
+.my_container {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1.5px solid #e6e6e6;
+    border-radius: 5px;
+}
+
+/* page list in the barside  */
+div[data-testid="stSidebarNav"] {
+    padding-top: 0rem
+}
+
+/* metric in columns */
+div[data-testid="stHorizontalBlock"] div[data-testid="metric-container"] {
+    border: 1px solid #e6e6e6;
+    padding: 5% 5% 2% 7%;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* color: rgba(255, 255, 255, 0.92); */
+/* text-shadow: black 0.1em 0.1em 0.2em */
