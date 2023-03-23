@@ -10,6 +10,7 @@ def hide_elements():
         #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
         div[data-testid="stHeader"] {visibility: hidden;}
+        .viewerBadge_link__1S137 {visibility: hidden;}
         </style>
         """,
         unsafe_allow_html=True,

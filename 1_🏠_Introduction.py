@@ -13,7 +13,7 @@ with open("style.css") as css:
     st.markdown(f"<style>{css.read()}</style>", unsafe_allow_html=True)
 
 # 3. hide elements
-# hide_elements()
+hide_elements()
 
 # 4. title
 st.markdown(
