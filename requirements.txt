@@ -7,7 +7,6 @@ beautifulsoup4
 requests
 statistics
 transformers
-flair.data
 textblob
 selenium
 selenium.webdriver.common.keys
