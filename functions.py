@@ -2,6 +2,11 @@ import streamlit as st
 import base64
 import folium
 
+from wordcloud import WordCloud
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
 
 def hide_elements():
     st.markdown(
@@ -71,3 +76,20 @@ def set_bg_image(image):
         """,
         unsafe_allow_html=True,
     )
+
+
+@st.cache_data
+def create_word_cloud(text, max_words):
+    mask = np.array(Image.open("cloud.png"))
+
+    stopwords = {"people", "year", "day", "week", "time", "month", "hong", "kong"}
+
+    wordcloud = WordCloud(
+        background_color="#fbfbfd",
+        max_words=max_words,
+        stopwords=stopwords,
+        mask=mask,
+    ).generate(text)
+
+    return wordcloud
+

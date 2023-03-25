@@ -1,11 +1,10 @@
 import streamlit as st
-from functions import hide_elements, get_map
+from functions import hide_elements, get_map, create_word_cloud
 from streamlit_folium import st_folium
-from datetime import datetime
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
-import ast
+import matplotlib.pyplot as plt
 
 
 # 1. page config
@@ -178,7 +177,29 @@ if st.session_state.current_country != "None" and st.session_state.current_form 
 
         st.plotly_chart(fig)
 
-        # 10.2 line chart
+        # 10.2 word cloud for positive sentiment
+        text = " ".join(df_filtered[df_filtered["Sentiment"] == "POSITIVE"]["Text"].values)
+        
+        wordcloud = create_word_cloud(text, 30)
+
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis("off")
+        plt.title("Top 30 Words in Positive Sentiment News")
+
+        st.pyplot(plt)
+
+        # 10.3 word cloud for negative sentiment
+        text = " ".join(df_filtered[df_filtered["Sentiment"] == "NEGATIVE"]["Text"].values)
+
+        wordcloud = create_word_cloud(text, 30)
+
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis("off")
+        plt.title("Top 30 Words in Negative Sentiment News")
+
+        st.pyplot(plt)
+
+        # 10.4 line chart
         df_confidence = df_filtered.copy()
         df_confidence.loc[df_confidence["Sentiment"] == "NEGATIVE", "Confidence"] *= -1
     
@@ -208,7 +229,7 @@ if st.session_state.current_country != "None" and st.session_state.current_form 
         st.plotly_chart(fig)   
 
     with tab2:
-        # 10.3 radar chart
+        # 10.5 radar chart
         labels = ["sadness", "joy", "love", "anger", "fear", "surprise"]
         avg_scores = []
 
@@ -241,7 +262,7 @@ if st.session_state.current_country != "None" and st.session_state.current_form 
 
         st.plotly_chart(fig)
      
-        # 10.4 line chart
+        # 10.6 line chart
         df_emotions = (
             df_filtered.groupby(pd.Grouper(key="Date", freq=freq_options[st.session_state.current_fruq][0]))
             .agg({"sadness": "mean", "joy": "mean", "love": "mean", "anger": "mean", "fear": "mean", "surprise": "mean"})
@@ -272,9 +293,11 @@ if st.session_state.current_country != "None" and st.session_state.current_form 
         )
 
         st.plotly_chart(fig)
-
+        
 # 11. comparison
 if st.session_state.current_form == "Selection":  
+    st.session_state.current_country = "None"
+
     st.write("")
 
     options = st.multiselect(
@@ -321,7 +344,29 @@ if st.session_state.current_form == "Selection":
 
         st.plotly_chart(fig)
 
-        # 11.3 line chart
+        # 11.3 word cloud for positive sentiment
+        text = " ".join(df_filtered[df_filtered["Sentiment"] == "POSITIVE"]["Text"].values)
+        
+        wordcloud = create_word_cloud(text, 50)
+
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis("off")
+        plt.title("Top 50 Words in Positive Sentiment News")
+
+        st.pyplot(plt)
+
+        # 11.4 word cloud for negative sentiment
+        text = " ".join(df_filtered[df_filtered["Sentiment"] == "NEGATIVE"]["Text"].values)
+
+        wordcloud = create_word_cloud(text, 50)
+
+        plt.imshow(wordcloud, interpolation="bilinear")
+        plt.axis("off")
+        plt.title("Top 50 Words in Negative Sentiment News")
+
+        st.pyplot(plt)
+
+        # 11.5 line chart
         df_confidence = df_filtered.copy()
         df_confidence.loc[df_confidence["Sentiment"] == "NEGATIVE", "Confidence"] *= -1
         
