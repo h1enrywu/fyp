@@ -21,7 +21,7 @@ def delete_page(main_script_path_str, page_name):
             break
         else:
             pass
-    # _on_pages_changed.send()
+    _on_pages_changed.send()
 
 def add_page(main_script_path_str, page_name):
     
@@ -43,9 +43,10 @@ def add_page(main_script_path_str, page_name):
 
 
 if st.button("delete"):
-    delete_page("/app/fyp/1_🏠_Introduction.py", "My_Dateset")
+    delete_page("Introduction", "My_Dateset")
+
 if st.button("add"):
-     add_page("1_🏠_Introduction", "2_📃_My_Dateset")
+     add_page("Introduction", "My_Dateset")
 
 
 
