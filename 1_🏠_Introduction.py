@@ -21,7 +21,7 @@ st.markdown(
     <div class="intro_header">
         <h2>2022-23</h2>
         <h2>DMC Final Year Project</h2>
-        <h2>Interactive Visualization of Author Sentiments in Health-related News</h2>
+        <h2>Interactive Visualization of Author Sentiments in Mask-related News</h2>
         <h2>Wu Ka Shing 21217424</h2>
     </div>
     """,
