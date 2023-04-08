@@ -10,6 +10,4 @@ transformers
 textblob
 selenium
 WordCloud
-streamlit.source_util
-pathlib
-streamlit.runtime.scriptrunner
+
