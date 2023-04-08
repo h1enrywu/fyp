@@ -1,5 +1,5 @@
 import streamlit as st
-from functions import hide_elements
+from functions import hide_elements, logout_button
 import streamlit.components.v1 as components
 from PIL import Image
 
@@ -7,11 +7,12 @@ from PIL import Image
 # 1. clear the cache
 st.session_state.current_country = "None"
 
-# 2. page config
+# 2. page config and logout button
 st.set_page_config(
     page_title="topic-modeling-fpy",
     layout="wide",
 )
+logout_button()
 
 # 3. import the css file
 with open("style.css") as css:

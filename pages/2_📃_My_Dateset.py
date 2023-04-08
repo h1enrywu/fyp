@@ -1,16 +1,18 @@
 import streamlit as st
-from functions import hide_elements
+from functions import hide_elements, logout_button
 import pandas as pd
 import plotly.express as px
+
 
 # 1. clear the cache
 st.session_state.current_country = "None"
 
-# 2. page config
+# 2. page config and logout button
 st.set_page_config(
     page_title="my-dateset-fpy",
     layout="centered",
 )
+logout_button()
 
 # 3. import the css file
 with open("style.css") as css:

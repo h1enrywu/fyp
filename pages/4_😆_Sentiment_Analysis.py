@@ -1,5 +1,5 @@
 import streamlit as st
-from functions import hide_elements, get_map, create_word_cloud
+from functions import hide_elements, get_map, create_word_cloud, logout_button
 from streamlit_folium import st_folium
 import pandas as pd
 import plotly.graph_objects as go
@@ -7,11 +7,12 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 
 
-# 1. page config
+# 1. page config and logout button
 st.set_page_config(
     page_title="sentiment-analysis-fyp",
     layout="centered",
 )
+logout_button()
 
 # 2. import the css file
 with open("style.css") as css:
