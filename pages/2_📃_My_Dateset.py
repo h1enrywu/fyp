@@ -49,8 +49,9 @@ with tab1:
     # 8.1 description
     with st.expander("Dataset", expanded=True):
         df = pd.read_csv("news.csv")
-        df["Date"] = pd.to_datetime(df["Date"])
-        st.dataframe(df.head(10))
+        st.write(len(df))
+        df["Date"] = pd.to_datetime(df["Date"], format='%d/%m/%Y')
+        st.dataframe(df)
 
         content = """
         <div class="my_container" >
@@ -217,7 +218,7 @@ with tab2:
             "United States",
         ]
         df = df[df["Mode"].isin(countries)]
-        st.dataframe(df.head(10))
+        st.dataframe(df)
 
         content = """
         <div class="my_container" >

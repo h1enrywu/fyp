@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 from bs4 import BeautifulSoup as bs
-import datetime
+from datetime import datetime
 
 
 def scrape(url):
@@ -175,8 +175,7 @@ def urls_scraping(keyword: str, from_date: str, to_date: str) -> None:
     # Close the Chrome browser window
     driver.quit()
 
-    # Save the DataFrame to a CSV file; mode= "a" means append to the existing file. So the URLs
-    # scraped in the previous run will not be overwritten.
+    # Append the scraped URLs to the CSV file
     df.to_csv("urls.csv", mode="a", index=False, header=False)
 
     # Write a log entry with the current date

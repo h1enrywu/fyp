@@ -32,7 +32,7 @@ st.markdown(
 
 # 5. read the dataset
 df = pd.read_csv("analysis_ready.csv")
-df['Date'] = pd.to_datetime(df['Date'])
+df['Date'] = pd.to_datetime(df['Date'], format='%d/%m/%Y')
 
 countries = [
     "Australia",

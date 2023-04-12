@@ -17,10 +17,10 @@ with open("log.txt", "r") as f:
 to_date = today
 
 # 1: URLs scraping
-# urls_scraping(keyword=keyword, from_date=from_date, to_date=to_date)
+urls_scraping(keyword=keyword, from_date=from_date, to_date=to_date)
 
 # 2: News scraping
-# news_scraping()
+news_scraping()
 
 # 3: Data preprocessing
 df = pd.read_csv("news.csv")

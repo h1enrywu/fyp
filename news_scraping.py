@@ -33,13 +33,19 @@ m_dict = {
 
 
 def news_scraping() -> None:
+    # Read urls.csv
     urls_df = pd.read_csv("urls.csv")
+    # Drop duplicates
     urls_df.drop_duplicates(subset=["URL"], inplace=True)
+    # Count the number of unscraped articles
     unscraped_count = len(urls_df[urls_df["Scraped"] == 0])
+    # Remove the articles that have been skipped
     df_urls = urls_df[urls_df["Skipped"] != 1]
+    # Create a data frame to store the scraped articles in this run
     df = pd.DataFrame(columns=["Source", "URL", "Title", "Date", "Content"], index=None)
     print("Articles scraping started...\n")
 
+    # Excluded sources, used for testing
     excluded_sources = [
         # "bbc",
         # "cnn",
@@ -65,10 +71,14 @@ def news_scraping() -> None:
         for source in excluded_sources:
             df_urls = df_urls[df_urls["Source"] != source]
 
+    # Loop through the URLs
     for row in df_urls.itertuples():
+
+        # If the article has been scraped, skip it
         if row.Scraped == 1:
             continue
 
+        # Get the soup of the article
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0"
         }
@@ -76,19 +86,27 @@ def news_scraping() -> None:
         soup = bs(response.text, "lxml")
         print(row.URL)
 
+        # Handle the articles from BBC
         if row.Source == "bbc":
-            keywords = ["/future/", "/culture/", "/travel/"]
+            # Skip the articles that are not in English
             if "pidgin" in row.URL or "afaanoromoo" in row.URL:
+                # Mark special cases as skipped
                 urls_df.loc[urls_df.URL == row.URL, "Skipped"] = 1
                 continue
+
+            # For BBC, if the URL contains any of the keywords, the HTML structure for the title, date and body are different
+            keywords = ["/future/", "/culture/", "/travel/"]
             if any(keyword in row.URL for keyword in keywords):
+                # Scrpae the title
                 title = soup.select(
                     ".article-headline__text.b-reith-sans-font.b-font-weight-300"
                 )[0].text
+                # Scrape the date and format it
                 date = soup.select(".b-font-family-serif.b-font-weight-300")[0]
                 date = date.text.split(" ")
                 day = "0" + date[0][:-2] if int(date[0][:-2]) < 10 else date[0][:-2]
                 date = date[2] + "-" + m_dict[date[1]] + "-" + day
+                # Scrape the body
                 body = soup.select(".article__body-content p")
                 body = " ".join([p.text.strip() for p in body])
             else:
@@ -97,9 +115,13 @@ def news_scraping() -> None:
                 date = date.split("T")[0]
                 body = soup.select(".ssrcss-pv1rh6-ArticleWrapper.e1nh2i2l6 p")
                 body = " ".join([p.text.strip() for p in body])
+
+            # Raise an error if any of the scraped elements is empty
             elements = ["bbc", row.URL, title, date, body]
             if not all(elements):
                 raise ValueError
+
+            # Append the scraped elements to the data frame
             df.loc[len(df)] = elements
 
         elif row.Source == "cnn":
@@ -130,7 +152,11 @@ def news_scraping() -> None:
                 title = soup.select(".pg-headline")[0].text
                 date = soup.select(".update-time")[0].text.split(" ")
                 try:
-                    day = "0" + date[-3][:-1] if int(date[-3][:-1]) < 10 else date[-3][:-1]
+                    day = (
+                        "0" + date[-3][:-1]
+                        if int(date[-3][:-1]) < 10
+                        else date[-3][:-1]
+                    )
                     date = date[-2] + "-" + m_dict[date[-4]] + "-" + day
                 except ValueError:
                     date = soup.find("meta", {"property": "og:pubdate"})["content"][:10]
@@ -471,6 +497,7 @@ def news_scraping() -> None:
         else:
             raise ValueError
 
+        # Mark the all scraped urls as scraped
         urls_df.loc[urls_df.URL == row.URL, "Scraped"] = 1
 
     print("\nArticles scraping completed.")
@@ -478,13 +505,18 @@ def news_scraping() -> None:
     print(f"{len(urls_df[urls_df.Skipped == 1])} urls were skipped.")
     print(f"{len(df)} new articles were scraped gross.\n")
 
+    # Sort the "urls_df" dataframe by "Source"
     urls_df = urls_df.sort_values(by="Source")
+    # Update the "Skipped" and "Scraped" columns for each URL in the urls.csv file
     urls_df.to_csv("urls.csv", index=False)
-    df['Date'] = pd.to_datetime(df['Date'], format='%Y/%m/%d')
+    # Convert the "Date" column to datetime format
+    df["Date"] = pd.to_datetime(df["Date"], format="%Y/%m/%d")
+    # Sort the "df" dataframe by "Source"
     df = df.sort_values(by="Source")
+    # Append the scraped articles to the news.csv file
     df.to_csv("news.csv", mode="a", index=False, header=False)
 
     return None
 
 
-# news_scraping()
+
