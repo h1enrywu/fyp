@@ -54,7 +54,7 @@ num_rows = df.shape[0]
 if "current_form" not in st.session_state:
     st.session_state.current_form = "None"
 
-st.session_state.current_form = "Map"
+st.session_state.current_form = "Selection"
 
 if "current_country" not in st.session_state:
     st.session_state.current_country = "None"
@@ -62,15 +62,15 @@ if "current_country" not in st.session_state:
 if "current_frequency" not in st.session_state:
     st.session_state.current_frequency = "None"
 
-st.session_state.current_fruq = "Half Year"
+st.session_state.current_fruq = "Quarter"
 
 # 7. setting
 with st.sidebar.expander("⚙️ Setting", expanded=True):
-    interactive_form =  st.selectbox("Interactive with", ("Map", "Selection"), index=0)
+    interactive_form =  st.selectbox("Interactive with", ("Selection", "Map"), index=0)
     st.session_state.current_form = interactive_form
 
     freq_options = {"Month": ["M", "M1"], "Quarter": ["Q", "M3"], "Half Year": ["6M", "M6"]}
-    fruq = st.selectbox("Frequency", list(freq_options.keys()), help="Only apply to line chart", index=2)
+    fruq = st.selectbox("Frequency", list(freq_options.keys()), help="Only apply to line chart", index=1)
     st.session_state.current_fruq = fruq
 
 # 8. date range filter
@@ -370,6 +370,35 @@ if st.session_state.current_form == "Selection":
         # 11.5 line chart
         df_confidence = df_filtered.copy()
         df_confidence.loc[df_confidence["Sentiment"] == "NEGATIVE", "Confidence"] *= -1
+                
+        df_confidence = (
+            df_confidence.groupby(pd.Grouper(key="Date", freq=freq_options[st.session_state.current_fruq][0]))
+            .agg({"Confidence": "mean"})
+            .reset_index()
+        )
+
+        fig = px.line(df_confidence, x="Date", y="Confidence")
+        fig.update_traces(
+            hovertemplate="Date: %{x}<br>" + "Score: %{y}<br>",
+            hoverlabel=dict(align="left"),
+        )
+        fig.update_layout(
+            title=dict(
+                text="Trend of Sentiment",
+                x=0.5,
+                xanchor="center",
+                yanchor="top",
+            ),
+            xaxis=dict(title="Month", dtick=freq_options[st.session_state.current_fruq][1], tickformat="%m/%Y", tickangle=45),
+            yaxis=dict(title="Score of Sentiment"),
+            margin=dict(l=50, r=40),
+        )
+
+        st.plotly_chart(fig)
+
+        # 11.6 line chart by countries
+        df_confidence = df_filtered.copy()
+        df_confidence.loc[df_confidence["Sentiment"] == "NEGATIVE", "Confidence"] *= -1
         
         df_confidence = (
             df_confidence.groupby([pd.Grouper(key="Date", freq=freq_options[st.session_state.current_fruq][0]), "Mode"])
@@ -631,6 +660,7 @@ if st.session_state.current_form == "Selection":
             )
 
             st.plotly_chart(fig)
+
 
 # 12. dataset statistic
 with st.sidebar.expander("📈 Dataset Statistic", expanded=True):

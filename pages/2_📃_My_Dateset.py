@@ -33,12 +33,12 @@ st.markdown(
 if "current_frequency" not in st.session_state:
     st.session_state.current_frequency = "None"
 
-st.session_state.current_fruq = "Half Year"
+st.session_state.current_fruq = "Quarter"
 
 # 7. frequency
 freq_options = {"Month": ["M", "M1"], "Quarter": ["Q", "M3"], "Half Year": ["6M", "M6"]}
 fruq = st.sidebar.selectbox(
-    "Frequency", list(freq_options.keys()), help="Only apply to line chart", index=2
+    "Frequency", list(freq_options.keys()), help="Only apply to line chart", index=1
 )
 st.session_state.current_fruq = fruq
 
@@ -49,7 +49,6 @@ with tab1:
     # 8.1 description
     with st.expander("Dataset", expanded=True):
         df = pd.read_csv("news.csv")
-        st.write(len(df))
         df["Date"] = pd.to_datetime(df["Date"], format='%d/%m/%Y')
         st.dataframe(df)
 
@@ -319,3 +318,4 @@ with tab2:
     )
 
     st.plotly_chart(fig)
+
